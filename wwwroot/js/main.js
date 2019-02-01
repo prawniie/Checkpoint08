@@ -2,6 +2,13 @@
 let allObservations = "";
 let species = "";
 
+//hämta alla av den ARTEN i databasen-- > finns det ingen av den arten, gå vidare.Annars:
+//jmf input value för day och location med varje observation från databasen
+//    - om den finns där, ta upp rutan
+//        - om man säger ja, utför postmetoden
+//            - annars gör ej det
+
+
 async function getAllSpecies() {
 
     let response = await fetch(`/observation/getalluniquespecies/`, { method: "GET" });
@@ -62,32 +69,65 @@ function formatDate(date) {
     return date.slice(0, 19).replace("T", " ");
 }
 
+async function checkIfObservationExists(location, species) {
+    let response = await fetch(`/observation/checkifobservationexists?location=${location}&species=${species}`);
+
+
+    if (response.status === 200) {
+        let observationExists = await response.json();
+
+        if (observationExists == true) {
+            alert('Ask user if they want to add it anyway');
+
+            let addObservation = confirm("A bird of this species has already been added on the same day and location. Do you still want to add the observation?");
+
+            if (addObservation == true) {
+                console.log("You pressed ok!")
+                return true;
+            } else {
+                console.log("You pressed Cancel!");
+                return false;
+            }
+        } else {
+            alert('apparently it didnt exist')
+            return true;
+        }
+    } else {
+        console.log('Something went wrong..');
+    }
+}
+
 async function addSpecies() {
     let date = document.getElementById("date").value;
     let species = document.getElementById("species").value;
     let location = document.getElementById("location").value;
     let notes = document.getElementById("notes").value;
 
-    let response = await fetch(`/observation/`, {
-        method: "POST",
-        body: JSON.stringify(
-            {
-                species: species,
-                date: date,
-                location: location,
-                notes: notes
-            }),
-        headers: {
-            "Content-Type": "application/json"
-        }
-    });
+    let addDoubleObservation = await checkIfObservationExists(location, species);
 
-    if (response.status === 200) {
-        console.log('New species added!');
-        getAllSpecies();
-        getAllObservations();
-    } else {
-        console.log('Something went wrong..');
+    if (addDoubleObservation == true) {
+        let response = await fetch(`/observation/`, {
+            method: "POST",
+            body: JSON.stringify(
+                {
+                    species: species,
+                    date: date,
+                    location: location,
+                    notes: notes
+                }),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+
+        if (response.status === 200) {
+
+            console.log('New species added!');
+            getAllSpecies();
+            getAllObservations();
+        } else {
+            console.log('Something went wrong..');
+        }
     }
 }
 

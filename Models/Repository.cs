@@ -35,5 +35,6 @@ namespace BirdWatcher.Web.Models
             return _context.Observations.OrderBy(o => o.Species).Select(o => o.Species).Distinct().ToList();
 
         }
+
     }
 }
