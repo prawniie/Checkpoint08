@@ -1,5 +1,22 @@
 ﻿
 async function getAllSpecies() {
+    let allSpecies = document.getElementById("allSpecies");
+
+    let response = await fetch(`/observation/`, { method: "GET" });
+
+    if (response.status === 200) {
+        let allObservations = await response.json();
+        console.log("allObservations", allObservations)
+
+        for (let o of allObservations) {
+            allSpecies.innerHTML += `<p>${o.name}</p></br>`;
+        }
+    } else {
+        console.log('Something went wrong..')
+    }
+}
+
+async function getAllObservations() {
     let observations = document.getElementById("observations");
 
     let response = await fetch(`/observation/`, { method: "GET" });
@@ -52,6 +69,7 @@ async function addSpecies() {
 
     if (response.status === 200) {
         console.log('New species added!');
+        getAllSpecies();
     } else {
         console.log('Something went wrong..');
     }
