@@ -5,39 +5,29 @@
     <link href="/css/main.css" rel="stylesheet" />
 </head>
 <body>
-
     <h3>Add observation</h3>
     <label>Date</label>
-    <input id="date" name="Date" type="datetime"/>
-
+    <input id="date" name="Date" type="datetime" />
     <label>Species</label>
-    <input id="species" name="Species"/>
-
+    <input id="species" name="Species" />
     <label>Location</label>
-    <input id="location" name="Location"/>
-
+    <input id="location" name="Location" />
     <label>Notes</label>
-    <input id="notes" name="Notes"/>
-
+    <input id="notes" name="Notes" />
     <button onclick="addSpecies()" id="addButton">Ok</button>
-
-    <h3>Show all observations</h3>
-    <button onclick="getAllObservations()">Ok</button>
 
     <h3>All observations</h3>
     <div id="observations">
 
-        <h3>Species</h3>
-        <button onclick="getAllSpecies()">Ok</button>
-
-        <div id="allSpecies">
-        </div>
     </div>
+    <h3>Species</h3>
+    <div id="allSpecies">
+    </div>
+
     <hr />
 
     <button onclick="recreateDatabase()" id="recreateButton">Recreate database</button>
 
     <script src="/js/main.js"></script>
-
 </body>
 </html>

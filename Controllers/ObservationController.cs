@@ -38,5 +38,12 @@ namespace BirdWatcher.Web.Controllers
             return Ok(observations);
         }
 
+        [HttpGet("getalluniquespecies")]
+        public IActionResult GetAllUniqueSpecies()
+        {
+            List<string> species = _repo.GetAllUniqueSpecies();
+            return Ok(species);
+        }
+
     }
 }

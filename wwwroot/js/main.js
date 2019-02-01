@@ -1,23 +1,27 @@
-﻿
-async function getAllSpecies() {
-    let allSpecies = document.getElementById("allSpecies");
+﻿getAllObservations();
 
-    let response = await fetch(`/observation/`, { method: "GET" });
+async function getAllSpecies() {
+
+    let response = await fetch(`/observation/getalluniquespecies/`, { method: "GET" });
 
     if (response.status === 200) {
-        let allObservations = await response.json();
-        console.log("allObservations", allObservations)
 
-        for (let o of allObservations) {
-            allSpecies.innerHTML += `<p>${o.name}</p></br>`;
+        let species = await response.json();
+        console.log("species", species)
+
+        let html = "<table>"
+
+        for (let s of species) {
+            html += `<tr><td>${s}</td></tr>`;
         }
+        document.getElementById("allSpecies").innerHTML = html + `</table>`;
+
     } else {
         console.log('Something went wrong..')
     }
 }
 
 async function getAllObservations() {
-    let observations = document.getElementById("observations");
 
     let response = await fetch(`/observation/`, { method: "GET" });
 
@@ -30,13 +34,14 @@ async function getAllObservations() {
         for (let o of allObservations) {
             html += `<tr>
                         <td>${formatDate(o.date)}</td>
-                        <td>${o.name}</td>
+                        <td>${o.species}</td>
                         <td>${o.location === null ? "" : o.location}</td>
                         <td>${o.notes === null ? "" : o.notes}</td>
                     </tr>`;
         }
 
-        observations.innerHTML = html + `</table>`;
+        document.getElementById("observations").innerHTML = html + `</table>`;
+        getAllSpecies();
 
     } else {
         console.log('Something went wrong..');
@@ -57,7 +62,7 @@ async function addSpecies() {
         method: "POST",
         body: JSON.stringify(
             {
-                name: species,
+                species: species,
                 date: date,
                 location: location,
                 notes: notes
@@ -70,6 +75,7 @@ async function addSpecies() {
     if (response.status === 200) {
         console.log('New species added!');
         getAllSpecies();
+        getAllObservations();
     } else {
         console.log('Something went wrong..');
     }

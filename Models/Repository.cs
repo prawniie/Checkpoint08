@@ -25,9 +25,15 @@ namespace BirdWatcher.Web.Models
             _context.Database.EnsureCreated();
         }
 
-        internal List<Observation> GetAllObservations()
+        public List<Observation> GetAllObservations()
         {
             return _context.Observations.OrderBy(o => o.Date).ToList();
+        }
+
+        public List<string> GetAllUniqueSpecies()
+        {
+            return _context.Observations.OrderBy(o => o.Species).Select(o => o.Species).Distinct().ToList();
+
         }
     }
 }
