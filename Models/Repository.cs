@@ -27,7 +27,7 @@ namespace BirdWatcher.Web.Models
 
         internal List<Observation> GetAllObservations()
         {
-            return _context.Observations.ToList();
+            return _context.Observations.OrderBy(o => o.Date).ToList();
         }
     }
 }
