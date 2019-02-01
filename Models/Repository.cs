@@ -25,5 +25,9 @@ namespace BirdWatcher.Web.Models
             _context.Database.EnsureCreated();
         }
 
+        internal List<Observation> GetAllObservations()
+        {
+            return _context.Observations.ToList();
+        }
     }
 }

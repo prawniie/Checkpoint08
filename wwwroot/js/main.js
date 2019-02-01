@@ -1,4 +1,24 @@
 ﻿
+async function getAllSpecies() {
+    let observations = document.getElementById("observations");
+
+    let response = await fetch(`/observation/`, { method: "GET" });
+
+    if (response.status === 200) {
+        let allObservations = await response.json();
+        console.log("allObservations", allObservations)
+
+        observations.innerHTML = `<h3>All observations</h3>`;
+
+        for (let o of allObservations) {
+            observations.innerHTML += `${o.name}<br>`;
+        }
+
+    } else {
+        console.log('Something went wrong..');
+    }
+}
+
 async function addSpecies() {
     let species = document.getElementById("input").value;
 

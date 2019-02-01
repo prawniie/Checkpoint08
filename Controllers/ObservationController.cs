@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using BirdWatcher.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,7 +32,10 @@ namespace BirdWatcher.Web.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            throw new NotImplementedException();
+            List<Observation> observations = new List<Observation>();
+
+            observations = _repo.GetAllObservations();
+            return Ok(observations);
         }
 
     }
