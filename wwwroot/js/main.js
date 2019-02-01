@@ -20,13 +20,19 @@ async function getAllSpecies() {
 }
 
 async function addSpecies() {
-    let species = document.getElementById("input").value;
+    let date = document.getElementById("date").value;
+    let species = document.getElementById("species").value;
+    let location = document.getElementById("location").value;
+    let notes = document.getElementById("notes").value;
 
     let response = await fetch(`/observation/`, {
         method: "POST",
         body: JSON.stringify(
             {
-                name: species
+                name: species,
+                date: date,
+                location: location,
+                notes: notes
             }),
         headers: {
             "Content-Type": "application/json"
