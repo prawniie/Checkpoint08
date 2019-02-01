@@ -8,15 +8,26 @@ async function getAllSpecies() {
         let allObservations = await response.json();
         console.log("allObservations", allObservations)
 
-        observations.innerHTML = `<h3>All observations</h3>`;
+        let html = "<table><tr><th>Date</th><th>Species</th><th>Location</th><th>Notes</th></tr>";
 
         for (let o of allObservations) {
-            observations.innerHTML += `${o.name}<br>`;
+            html += `<tr>
+                        <td>${formatDate(o.date)}</td>
+                        <td>${o.name}</td>
+                        <td>${o.location === null ? "" : o.location}</td>
+                        <td>${o.notes === null ? "" : o.notes}</td>
+                    </tr>`;
         }
+
+        observations.innerHTML = html + `</table>`;
 
     } else {
         console.log('Something went wrong..');
     }
+}
+
+function formatDate(date) {
+    return date.slice(0, 19).replace("T", " ");
 }
 
 async function addSpecies() {
